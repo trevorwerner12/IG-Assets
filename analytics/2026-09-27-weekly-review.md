@@ -90,7 +90,7 @@ Each concept was posted as a main reel plus a Trial Reel, which Instagram shows 
 2. **Short, low-text, vibe-first reels win the hook.** "Loyal to the cut" and "Ground Turkey" had a one-line caption and one hashtag. They had the lowest skip rates (23–39%) and ~10s average watch. Viewers decide in the first second, and a clean visual with a punchy line beats a text-heavy opener.
 3. **Relatable humor gets shared.** The "I would LOVE to share my blueberries" reel had the best engagement rate (5.3%) and 21 shares on one copy. That was nearly half of all shares for the week. Humor about being protective of your macros is a repeatable lane.
 4. **Recipes get saved but lose people at the start.** Dawg Bowl drew 18 saves, the most of any post this week, but about half of viewers skipped it and average watch was ~5.5s. The value is there, but the first frame isn't selling it.
-5. **The baseball identity drives profile visits.** "What do I as a professional baseball player actually eat?" (June) got **34 profile visits**, the most of any post in the dataset. The Macro Quiz (July) held viewers **20s on average** with 17 shares. Comments this week are full of teammates, and people are asking about your recovery from surgery. That personal story hasn't been posted about yet.
+5. **The baseball identity drives profile visits.** "What do I as a professional baseball player actually eat?" (June) got **34 profile visits**, the most of any post in the dataset. The Macro Quiz (July) held viewers **20s on average** with 17 shares. Comments this week are full of teammates. No reel yet tells strangers you're a pro pitcher.
 
 ## 4. What isn't working
 
@@ -119,7 +119,7 @@ Each concept was posted as a main reel plus a Trial Reel, which Instagram shows 
 | **Sun 9/27** | Reel (7–10s) | **"Loyal to the cut" Pt. 2**: same vibe, new food (e.g., weighing turkey on the scale, slow-mo pour of Greek yogurt) | Reach | "Still loyal to the cut 🔪" | "Day 1 of documenting the cut. Follow along 🔪 #shredszn" | Poll: "Cut 🔪 or Bulk 💪?" |
 | **Mon 9/28** | Reel (12–15s) | **Dawg Bowl, re-edited**: open on the finished bowl with "81g PROTEIN / 717 CAL" on screen, *then* a fast build | Saves | "81g protein. 717 calories." | Full macros + ingredients. "Save this for Sunday meal prep 📌" | Behind-the-scenes prep clip + slider "Would you eat this?" |
 | **Tue 9/29** | Reel (6–10s) | **Humor sequel to blueberries**: "When a teammate asks for a bite of my 99/1 turkey" (reaction face, then pull the bowl away) | Shares | "When a teammate asks for a bite 🙂" | "Tag the teammate who always does this 😂" | Repost the reel + "Which teammate is this?" question box |
-| **Wed 9/30** | Reel (15–20s), talking to camera | **Identity post**: "What a pro pitcher eats in a day while rehabbing from surgery." Three quick meal cuts plus one line on *why* (protein for tissue repair) | **Follows** | "Pro pitcher. Post-surgery. Here's what I eat." | "Documenting my whole comeback, one meal at a time. Follow to see how it goes ⚾" | Q&A sticker: "Ask me anything about rehab nutrition" |
+| **Wed 9/30** | Reel (18–22s), voiceover | **Identity post**: "Pro pitcher day of eating, by the numbers." Every meal with calories and protein, plus one training clip | **Follows** | "Pro pitcher. Offseason. Every meal today, by the numbers." | "What a pro pitcher eats in a day ⚾ Follow for every day of it" | Q&A sticker: "Ask me anything about what pro ballplayers eat" |
 | **Thu 10/1** | Reel (10–15s) | **Macro Quiz #2**: "Which has more protein? 1 cup Greek yogurt vs 3 whole eggs." Pause on the question, then reveal | Comments | "90% of people get this wrong 🤔" | "Drop your answer BEFORE you watch the end 👇" *(test 11:30 AM AZ)* | Quiz sticker with the same question |
 | **Fri 10/2** | Reel (10–12s) | **WHOOP → Reel**: "WHOOP says I'm 3.9 years younger… and aging 1.7x faster." Face plus screen-record of the app. Payoff: sleep consistency beat the gym | Reach + test WHOOP topic | "My WHOOP says two opposite things" | "The fix was boring: same bedtime every night. Follow for more real data from 6 years on WHOOP" | Poll: "Do you wear a WHOOP / Oura / nothing?" |
 | **Sat 10/3** | Reel (10–15s) | **Grocery haul / weekly prep**: fast cuts of the cart, every item with protein grams on screen (Jan "Sam's Grocery Restock" pulled 15 comments) | Saves + comments | "My whole week of protein for $___" | "What's the one item I'm missing? 👇 Save for your next grocery run" | Question box: "What should I cook next week?" (feeds next plan) |
@@ -131,13 +131,13 @@ Each concept was posted as a main reel plus a Trial Reel, which Instagram shows 
 | Sun 9/27 | "Still loyal to the cut 🔪" | "Pro pitcher on a cut. Day 1." | Does saying who you are beat a pure-vibe hook? |
 | Mon 9/28 | "81g protein. 717 calories." | "This bowl has more protein than 13 eggs" | Raw macros vs a comparison |
 | Tue 9/29 | "When a teammate asks for a bite 🙂" | "POV: you're the only guy on the team who meal preps" | Inside joke vs relatable POV |
-| Wed 9/30 | "Pro pitcher. Post-surgery. Here's what I eat." | Open on the surgery scar or rehab clip, then "What I eat to get back on the mound" | Talking to camera vs visual cold open |
+| Wed 9/30 | "Pro pitcher. Offseason. Every meal today, by the numbers." | Open on your fastest pitch: "What I eat to throw [__] mph" | Nutrition hook vs baseball-performance hook |
 | Thu 10/1 | "90% of people get this wrong 🤔" | "Greek yogurt or 3 eggs. Which has more protein?" | Curiosity bait vs straight question |
 | Fri 10/2 | "My WHOOP says two opposite things" | "I'm 3.9 years younger than my age… and aging 1.7x faster" | Vague tease vs the specific numbers |
 | Sat 10/3 | "My whole week of protein for $___" | "Everything a pro athlete buys at Sam's for a week" | Price angle vs identity angle |
 
 ### Housekeeping (do once this week)
-- **Bio:** say who you are and why to follow in one line, e.g. *"Pro pitcher 🔪 documenting the cut + rehab. High-protein meals you'll actually eat."*
+- **Bio:** say who you are and why to follow in one line, e.g. *"Pro pitcher 🔪 documenting the cut. High-protein meals you'll actually eat."*
 - **Pin 3 posts:** Loyal to the cut, the blueberries reel, and Wednesday's identity reel once it's live.
 - **Link in bio:** add one (recipe doc, macros sheet, or WHOOP referral) and point Monday's and Saturday's CTAs at it.
 - **Reply to every comment within the first hour.** Your teammates' comment threads are what pushed Ground Turkey's reach.

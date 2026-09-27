@@ -11,11 +11,11 @@ Each day has **hook A** (main post) and **hook B** (Trial Reel, written for stra
 |---|---|---|
 | **High-protein "functional indulgence"** | Few-ingredient, high-protein versions of comfort food and desserts: Greek-yogurt tiramisu, frozen yogurt-fruit "clusters", cottage-cheese ice cream, protein dips ([Canadian Grocer](https://canadiangrocer.com/most-viral-tiktok-food-trends-2026-so-far), [Canadian Grocer](https://canadiangrocer.com/high-protein-few-ingredient-recipes-driving-tiktok-food-trends), [YumHeal](https://yumheal.com/answers/viral-tiktok-food-trends-2026)) | Tue: blueberry-yogurt clusters (sequel to your best-shared reel). Sat: rating viral protein desserts |
 | **Fibermaxxing** | Fiber is taking over from protein as the "macro of the moment"; creators post huge high-fiber bowls ([CNBC](https://www.cnbc.com/2025/12/12/fibermaxxing-high-fiber-foods-pepsi-nestle-olipop.html), [Johns Hopkins CLF](https://clf.jhsph.edu/viewpoints/food-trends-2026-focus-fiber-maxxing-global-foods-and-more), [Life Extension](https://www.lifeextension.com/wellness/supplements/fibermaxxing-vs-protein-maxxing)) | Mon: Dawg Bowl 2 as "protein-maxxing AND fiber-maxxing in one bowl" |
-| **Potential-Maxxing** | Proving self-improvement with hard numbers instead of vague affirmations; runs on original audio or voiceover ([Medium](https://medium.com/pen-with-paper/potential-maxxing-why-everyones-suddenly-proving-their-growth-with-numbers-10b30918b2db), [SocialBee](https://socialbee.com/blog/latest-instagram-trends/), [Buffer](https://buffer.com/resources/trending-audio-instagram/)) | Wed: rehab comeback by the numbers. Fri: your WHOOP numbers |
+| **Potential-Maxxing** | Proving self-improvement with hard numbers instead of vague affirmations; runs on original audio or voiceover ([Medium](https://medium.com/pen-with-paper/potential-maxxing-why-everyones-suddenly-proving-their-growth-with-numbers-10b30918b2db), [SocialBee](https://socialbee.com/blog/latest-instagram-trends/), [Buffer](https://buffer.com/resources/trending-audio-instagram/)) | Wed: a pro pitcher's day by the numbers. Fri: your WHOOP numbers |
 | **Competitive fitness gamification** | Leaderboards, visible scores, stakes, and a clear win-or-lose ending ([Lightreel](https://lightreel.ai/blogs/whats-trending-on-instagram)) | Thu: protein quiz vs a teammate, with a scoreboard and a loser's penalty |
 | **Serialized comedy** | Recurring bits that viewers recognize and come back for ([Lightreel](https://lightreel.ai/blogs/whats-trending-on-instagram)) | Sun: "Loyal to the Cut" becomes a numbered series. Tue: "Nobody Touches My Food" Ep. 2 |
 | **Signature opener / reveal hook** | A repeated deadpan stare becomes a creator's brand; reveal-style hooks in the first 2 seconds ([CreatorHouse](https://creatorhouse.app/blog/instagram-reel-hooks-fitness-2026), [FlowCast](https://flowcast.space/blog/instagram-reels-hooks-that-work-in-2026)) | Open every comedy reel with the same deadpan stare over the bowl |
-| **Fast "what I eat in a day"** | Quick cuts of every meal with calories and protein on screen ([Stack Influence](https://stackinfluence.com/blog/instagram-reels-content-ideas-influencers-2026)) | Wed: rehab day of eating |
+| **Fast "what I eat in a day"** | Quick cuts of every meal with calories and protein on screen ([Stack Influence](https://stackinfluence.com/blog/instagram-reels-content-ideas-influencers-2026)) | Wed: pro pitcher day of eating |
 | **Trending audio (week of 9/23)** | "September" (Earth, Wind & Fire), "Break My Stride" (progress / powering through), "Sunny" (Boney M.), "Reason to Stay" (Olivia Dean). Original-voiceover formats are also rising ([Buffer](https://buffer.com/resources/trending-audio-instagram/), [SocialBee](https://socialbee.com/blog/latest-instagram-trends/)) | Suggested audio for each day below. You're a creator account, so licensed tracks are available |
 | **5-hashtag cap** | Instagram now limits posts and Reels to 5 hashtags ([SocialBee](https://socialbee.com/blog/latest-instagram-trends/)) | Every caption below uses 5 or fewer |
 
@@ -103,27 +103,27 @@ The day, goal, and posting time stay the same.
 
 ---
 
-## WED 9/30: "Rehab-Maxxing: my comeback by the numbers" (goal: follows)
+## WED 9/30: "Pro Pitcher Day of Eating, by the Numbers" (goal: follows)
 
-**Why:** Potential-Maxxing (proving progress with hard numbers) is this month's top original-audio format, and your baseball identity is what drives profile visits. This is the first reel that explains who you are, so it's the one most likely to turn strangers into followers.
+**Why:** your baseball identity is what drives profile visits: the June "what does a pro baseball player eat" post got 34, your highest. This reel tells strangers who you are and why to follow. It uses the Potential-Maxxing format (hard numbers, not vague claims) and the fast what-I-eat-in-a-day format.
 **Length:** 18–22 s · **Audio:** your own voiceover over "Break My Stride" at low volume (or the Potential-Maxxing original audio).
 
-**Fill in the brackets with your real numbers. Only share medical details you're comfortable with.**
+**Fill in the brackets with a real day's numbers.**
 
 | # | Time | Shot / framing | Action | On-screen text / voiceover |
 |---|---|---|---|---|
-| 1 | 0–2s | Close-up: surgery scar, brace, or rehab band (your choice) | Slow reveal | **VO: "[X] days ago I had [surgery]. Here's the comeback, in numbers."** |
-| 2 | 2–4s | Chest-height, talking to camera | You nod | Text: "Pro pitcher · rehab week [X]" |
-| 3 | 4–7s | Overhead, breakfast | Plate + macros | "Breakfast: [__]g protein" · VO: "Protein for tissue repair: [__]g a day." |
-| 4 | 7–10s | Rehab / PT clip, wide 0.5x | You doing a rehab exercise | "[__] rehab sessions done" |
-| 5 | 10–13s | Screen-record of WHOOP | Scroll to sleep/recovery | "Sleep: [__] hrs avg · Recovery: [__]%" |
-| 6 | 13–16s | Overhead dinner (Dawg Bowl) | Quick shot | "Dinner: 81g protein" |
-| 7 | 16–20s | Chest-height, direct to camera | Say the line | **VO: "Day [X] of getting back on the mound. Follow along."** |
+| 1 | 0–2s | Wide 0.5x: you on a mound or in a bullpen (season footage), or in a team shirt with a glove | Throw or glove pop | **VO: "Pro pitcher. Offseason. Every meal today, by the numbers."** |
+| 2 | 2–4s | Chest-height, talking to camera | Nod, holding a coffee or water jug | Text: "[__]g protein · [__] calories · [__] oz water" (the day's totals) |
+| 3 | 4–7s | Overhead, breakfast | Plate, quick push-in | "Breakfast · [__] cal · [__]g P" |
+| 4 | 7–10s | Overhead, lunch / snack (e.g., yogurt + blueberries) | Quick push-in | "Lunch · [__] cal · [__]g P" |
+| 5 | 10–13s | Gym clip, wide 0.5x | One lift or a throwing drill | "Training: [lift / throwing]" |
+| 6 | 13–16s | Overhead dinner (Dawg Bowl) | Quick shot | "Dinner · 717 cal · 81g P" |
+| 7 | 16–20s | Chest-height, direct to camera | Say the line | **VO: "That's how a pitcher fuels in the offseason. Follow for every day of it."** |
 
-**Caption:** `Rehab-maxxing ⚾ Day [X] post-[surgery]. I'm documenting every meal and every number until I'm back on the mound.`
-**Hashtags:** `#baseball #pitcher #comeback #sportsnutrition #highprotein`
-**Trial hook B:** open on the throwing arm / mound footage from before surgery, with the text **"What I eat to get back on the mound."**
-**Story:** Q&A sticker "Ask me anything about rehab nutrition." After posting, pin this reel to your grid.
+**Caption:** `What a pro pitcher eats in a day ⚾ [__]g protein, [__] calories. Every meal and macro below.` + meal list with macros.
+**Hashtags:** `#baseball #pitcher #whatieatinaday #sportsnutrition #highprotein`
+**Trial hook B:** open on your fastest pitch (season footage) with the text **"What I eat to throw [__] mph"**. If you'd rather not share velocity, use **"What pro baseball players actually eat"**.
+**Story:** Q&A sticker "Ask me anything about what pro ballplayers eat." After posting, pin this reel to your grid.
 
 ---
 
@@ -194,7 +194,7 @@ Protein values are approximate; check them against the labels you use.
 ## Weekly checklist
 - [ ] Batch-film Sun + Mon on Saturday; Tue + Sat desserts need freezer time (prep a day ahead)
 - [ ] Line up a teammate for Tue and Thu
-- [ ] Fill in the real rehab numbers for Wed and the fiber number for Mon
+- [ ] Fill in Wed's day-of-eating numbers and the fiber number for Mon
 - [ ] Post each main at 5:00 PM AZ (Thu 11:30 AM) plus the trial with hook B
 - [ ] Reply to every comment in the first hour
 - [ ] Sun 10/4: re-run analytics and compare hook A vs hook B
