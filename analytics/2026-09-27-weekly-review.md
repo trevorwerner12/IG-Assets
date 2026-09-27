@@ -65,6 +65,23 @@ Avg watch in seconds. Skip rate = % of viewers who scrolled away in the first ~3
 | **Dawg Bowl (recipe)** | 3,973 | 3,220 | 58 | 1.8% | **Saves** (18), but ~50% skip rate |
 | WHOOP carousels (avg of 3) | 249 | 85 | 7 | 8.2% | Nothing that grows the account. 0 saves, 0 shares, 0 follows |
 
+### Trial Reels vs main posts
+
+Each concept was posted as a main reel plus a Trial Reel, which Instagram shows only to non-followers. The API doesn't label which copy is the trial, so I matched them by comments: your teammates' comments land on the copy your followers can see.
+
+| Concept | Main: views / reach / interactions / comments / skip % | Trial: views / reach / interactions / comments / skip % |
+|---|---|---|
+| Ground Turkey | 3,039 / 2,350 / 87 / 16 / 38.8 | 1,612 / 1,410 / 32 / 1 / **24.7** |
+| Loyal to the cut | 4,414 / 3,014 / 61 / 4 / 25.8 | 3,156 / 2,908 / 38 / 0 / **23.1** |
+| Blueberries | 2,694 / 2,009 / 128 / 11 / 34.6 | 1,821 / 1,505 / 57 / 0 / **33.6** |
+| Dawg Bowl | 2,253 / 1,811 / 32 / 2 / 52.0 | 1,720 / 1,409 / 26 / 0 / **48.7** |
+| Dawg Bowl 2 | 692 / 513 / 17 / 0 / 57.2 | 714 / 517 / 9 / 0 / **48.0** |
+| **Total** | **13,092 / 9,697 / 325 / 33** | **9,023 / 7,749 / 162 / 1** |
+
+- **The trials are pulling their weight.** They reached 7,749 accounts, about 45% of the week's total reach, all of them strangers.
+- **Strangers watch but don't engage.** Trial copies had a *lower* skip rate than the main copy in all 5 pairs, but they got 1 comment in total versus 33 on the mains. Interaction rate was 2.1% on trials vs 3.4% on mains. Almost all the conversation came from people who already know you.
+- **The two copies were the same cut, so the trials didn't test anything.** They added reach, but you can't tell which hook, cover, or first line works better.
+
 ---
 
 ## 3. What's working
@@ -79,7 +96,7 @@ Avg watch in seconds. Skip rate = % of viewers who scrolled away in the first ~3
 
 1. **Reach isn't turning into followers.** 17,089 accounts reached → 152 profile views → **5 follows (0.03%)**. People see the content but don't know who you are or why to follow. No reel this week had a follow reason ("follow for…") or a recurring series name.
 2. **WHOOP carousels are dead weight as a format.** 0 saves and 0 shares across five carousels. The WHOOP insights are good; the format is what's failing. Move them into reels.
-3. **Every reel was posted twice.** Each concept has two copies 1–40 minutes apart. If these were **Trial Reels** (shown only to non-followers), that's a smart A/B setup: keep doing it, and use the two copies to test *different hooks* rather than identical cuts. If they were accidental duplicates, stop. They split the comments and likes across two posts and make the grid look repetitive.
+3. **Trial Reels are being used for extra reach, not for testing.** Each trial repeated the main cut. Because strangers watch these but don't comment or follow, the trial is the right place to test a stranger-facing hook: one that says who you are and why someone should care. See the hook tests in section 5.
 4. **Link-in-bio taps: 0.** Either there's no link, or nothing points to it.
 
 ---
@@ -92,7 +109,7 @@ Avg watch in seconds. Skip rate = % of viewers who scrolled away in the first ~3
 - **Caption:** one punchy line, one or two hashtags, then (for recipes) the full macros and ingredients below the fold.
 - **One CTA per post**, matched to its goal: *save* (recipe), *share/tag* (humor), *comment* (quiz), *follow* (identity).
 - **Post at ~5:00 PM AZ.** Every top reel went out between 5:00 and 5:45 PM. On Thursday, test 11:30 AM AZ (lunch scroll) to compare.
-- **If you use Trial Reels,** post each concept as trial with a *different hook* on each copy, then share the winner to your grid.
+- **Trial Reels:** the main post gets hook A below; the trial gets **hook B**, which is written for strangers. Check the trial after 24 hours. If B has a lower skip rate *and* more reach than A, lead with B-style hooks next week.
 - **Stories daily** (959 views this week at zero effort): a poll or question sticker every day to lift interactions and feed next week's ideas.
 
 | Day | Format | Concept | Goal | Hook / on-screen text | Caption + CTA | Story |
@@ -104,6 +121,18 @@ Avg watch in seconds. Skip rate = % of viewers who scrolled away in the first ~3
 | **Thu 10/1** | Reel (10–15s) | **Macro Quiz #2**: "Which has more protein? 1 cup Greek yogurt vs 3 whole eggs." Pause on the question, then reveal | Comments | "90% of people get this wrong 🤔" | "Drop your answer BEFORE you watch the end 👇" *(test 11:30 AM AZ)* | Quiz sticker with the same question |
 | **Fri 10/2** | Reel (10–12s) | **WHOOP → Reel**: "WHOOP says I'm 3.9 years younger… and aging 1.7x faster." Face plus screen-record of the app. Payoff: sleep consistency beat the gym | Reach + test WHOOP topic | "My WHOOP says two opposite things" | "The fix was boring: same bedtime every night. Follow for more real data from 6 years on WHOOP" | Poll: "Do you wear a WHOOP / Oura / nothing?" |
 | **Sat 10/3** | Reel (10–15s) | **Grocery haul / weekly prep**: fast cuts of the cart, every item with protein grams on screen (Jan "Sam's Grocery Restock" pulled 15 comments) | Saves + comments | "My whole week of protein for $___" | "What's the one item I'm missing? 👇 Save for your next grocery run" | Question box: "What should I cook next week?" (feeds next plan) |
+
+### Trial Reel hook tests (hook B)
+
+| Day | Main (hook A, from table above) | Trial (hook B, for strangers) | What it tests |
+|---|---|---|---|
+| Sun 9/27 | "Still loyal to the cut 🔪" | "Pro pitcher on a cut. Day 1." | Does saying who you are beat a pure-vibe hook? |
+| Mon 9/28 | "81g protein. 717 calories." | "This bowl has more protein than 13 eggs" | Raw macros vs a comparison |
+| Tue 9/29 | "When a teammate asks for a bite 🙂" | "POV: you're the only guy on the team who meal preps" | Inside joke vs relatable POV |
+| Wed 9/30 | "Pro pitcher. Post-surgery. Here's what I eat." | Open on the surgery scar or rehab clip, then "What I eat to get back on the mound" | Talking to camera vs visual cold open |
+| Thu 10/1 | "90% of people get this wrong 🤔" | "Greek yogurt or 3 eggs. Which has more protein?" | Curiosity bait vs straight question |
+| Fri 10/2 | "My WHOOP says two opposite things" | "I'm 3.9 years younger than my age… and aging 1.7x faster" | Vague tease vs the specific numbers |
+| Sat 10/3 | "My whole week of protein for $___" | "Everything a pro athlete buys at Sam's for a week" | Price angle vs identity angle |
 
 ### Housekeeping (do once this week)
 - **Bio:** say who you are and why to follow in one line, e.g. *"Pro pitcher 🔪 documenting the cut + rehab. High-protein meals you'll actually eat."*
@@ -124,12 +153,12 @@ Avg watch in seconds. Skip rate = % of viewers who scrolled away in the first ~3
 | Shares | 45 | 80 |
 | Saves | 51 | 80 |
 
-Re-run this review on **Sun 10/4** and compare: which of the four goals (reach / saves / shares / follows) each concept actually delivered, and whether the Thursday midday test beat the 5 PM slot.
+Re-run this review on **Sun 10/4** and compare three things: which of the four goals (reach / saves / shares / follows) each concept actually delivered, whether hook B beat hook A on the trials, and whether the Thursday midday test beat the 5 PM slot.
 
 ---
 
 ### Data notes
 - Source: Instagram Graph API (account insights `day` period, 9/20–9/26 Arizona days (Instagram's day boundary is midnight UTC−7, which matches Arizona); per-media lifetime insights).
 - `online_followers` came back empty (Instagram doesn't return it for this account), so posting-time advice is based on when your best posts went out, not on audience-online data.
-- The API doesn't say whether the duplicate reels were Trial Reels, so section 4.3 covers both cases.
+- The duplicate reels are Trial Reels. The API doesn't mark which copy is the trial, so trial vs main was inferred from where teammate comments landed. Account-level totals include both copies.
 - The account-level daily follower series sums to +5 for the week. The follows/unfollows breakdown also shows 5 follows, so net follower change is +5 or lower.
