@@ -103,6 +103,8 @@ Each concept was posted as a main reel plus a Trial Reel, which Instagram shows 
 
 ## 5. Seven-day content plan (Sun 9/27 – Sat 10/3)
 
+> **Full scripts and shot lists:** [`content/2026-09-27-week-scripts.md`](../content/2026-09-27-week-scripts.md). After trend research, Tuesday became blueberry-yogurt clusters and Saturday became a protein-dessert rating (the grocery haul moves to next week). The scripts file takes precedence over the table below.
+
 **Rules for every reel this week**
 - **Hook in frame 1:** the finished food or your face plus a 3–6 word on-screen line. No slow build-up.
 - **7–15 seconds.** The top reels this week held ~10s.
