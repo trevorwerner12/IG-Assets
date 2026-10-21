@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+/* Brand colors and fonts. Use them in classes like bg-navy, text-stitch. */
+@theme {
+  --color-navy: #0b1f3a;
+  --color-navy-light: #17345e;
+  --color-stitch: #c8102e;
+  --color-stitch-dark: #a10d25;
+  --color-chalk: #f6f5f1;
+  --color-field: #1f7a4d;
+  --color-field-light: #e5f3eb;
+  --color-line: #e3e1da;
+  --color-ink: #121826;
+  --color-muted: #5b6475;
+  --color-gold: #f2b01e;
+
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-barlow), var(--font-inter), system-ui, sans-serif;
+}
+
+body {
+  background: var(--color-chalk);
+  color: var(--color-ink);
+}
+
+/* Reusable building blocks, used like normal classes: class="btn-primary" */
+@utility container-page {
+  @apply mx-auto w-full max-w-5xl px-4 sm:px-6;
+}
+@utility heading {
+  @apply font-display font-bold uppercase tracking-wide text-navy;
+}
+@utility card {
+  @apply rounded-2xl border border-line bg-white shadow-sm;
+}
+@utility btn {
+  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 font-semibold transition
+    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy disabled:cursor-not-allowed disabled:opacity-50;
+}
+@utility btn-primary {
+  @apply btn bg-stitch text-white hover:bg-stitch-dark;
+}
+@utility btn-secondary {
+  @apply btn bg-navy text-white hover:bg-navy-light;
+}
+@utility btn-outline {
+  @apply btn border border-line bg-white text-navy hover:border-navy;
+}
+@utility label {
+  @apply mb-1 block text-sm font-semibold text-navy;
+}
+@utility input {
+  @apply block min-h-11 w-full rounded-xl border border-line bg-white px-3 text-base text-ink
+    placeholder:text-muted/70 focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/15;
+}
+@utility hint {
+  @apply mt-1 text-xs text-muted;
+}

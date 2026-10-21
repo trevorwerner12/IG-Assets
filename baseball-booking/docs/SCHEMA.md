@@ -1,6 +1,6 @@
 # Database schema: plain-English guide
 
-The SQL is in `supabase/migrations/20261021000000_initial_schema.sql`.
+The SQL is in `supabase/migrations/`. Run the files in order (oldest date first).
 This page explains what each table is for and how they connect.
 
 ## The big picture
@@ -28,7 +28,7 @@ This page explains what each table is for and how they connect.
 | Table | What it holds | Who can see it |
 |---|---|---|
 | **profiles** | One row per login: name, email, phone, and **role** (family, coach, or admin). Created automatically when someone signs up. | You see your own. Coaches see the parents of kids they coach. Admin sees all. |
-| **coaches** | The public profile: photo, bio, playing background, specialties, price, lesson length, location, city, package discounts, **status** (pending, approved, rejected, or suspended). | Anyone can see **approved** coaches. A coach sees their own profile even while it's pending. |
+| **coaches** | The public profile: photo, bio, playing background, specialties, price, lesson length, location, city, **state**, **metro area** (e.g. "Houston" includes Katy), **time zone**, package discounts, **status** (pending, approved, rejected, or suspended). | Anyone can see **approved** coaches. A coach sees their own profile even while it's pending. |
 | **coach_private** | Information families should never see: application answers, **background check status**, Stripe account ID, rejection reason, admin notes. | The coach (read only) and the admin. |
 | **availability_rules** | Weekly hours, e.g. "Tuesday 4–8pm". Open time slots are calculated from these. | Anyone (needed to show open slots). Each coach edits only their own. |
 | **availability_blocks** | One-off time off, e.g. "out of town March 3–5". | Same as above. |
@@ -64,4 +64,5 @@ These are my defaults. Any of them is easy to change now and harder to change la
 - **One location per coach** for the MVP. Multiple facilities can come later.
 - **Age:** we store the birth date rather than the age, so a player's age is always current.
 - **Waiver:** one signature per family, covering all their kids. If you change the waiver text, every family re-signs once.
-- **Time zone:** everything is shown in Arizona time (America/Phoenix, which has no daylight saving time).
+- **Time zones (nationwide):** each coach has a time zone, set automatically from their state. Their weekly hours and lesson times use the coach's local time, since that's where the lesson happens. Phoenix (no daylight saving time) and Houston (Central time) both work correctly.
+- **Metro areas:** families search by metro area (Phoenix, Houston, Dallas–Fort Worth, and so on). Suburbs belong to their metro. To add a new market, add one line to `src/lib/constants.ts`.
