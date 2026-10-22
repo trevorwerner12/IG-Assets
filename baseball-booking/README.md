@@ -21,43 +21,46 @@ Built with Next.js, TypeScript, Tailwind, Supabase, Stripe Connect, and Resend.
 You need **Node.js 20 or newer** installed (https://nodejs.org, the LTS version).
 To check, run `node -v` in a terminal.
 
-### 1. Create the Supabase project
+### 1. Supabase project ✅ (already done)
 
-1. Go to https://supabase.com, sign in, and click **New project**.
-   Name: `baseball-lessons`. Region: any US region. Save the database password.
-2. When it's ready, open **SQL Editor → New query**.
-3. Run each file in `supabase/migrations/` **in order**: copy the whole file,
-   paste it, click **Run**, then do the next one:
-   1. `20261021000000_initial_schema.sql`
-   2. `20261022000000_nationwide_locations.sql`
+The Supabase project **baseball-lessons** is set up
+(dashboard: https://supabase.com/dashboard/project/qdshsjnmuwwprftfukps):
+- Both database files in `supabase/migrations/` have been run.
+- Site URL is `http://localhost:3000` and redirects to it are allowed.
+- 8 sample coaches (Phoenix and Houston), a demo family, and 15 reviews are loaded.
 
-   (If you already ran the first file earlier, just run the second one.)
+If you ever start a fresh project, run each file in `supabase/migrations/` in
+order in the **SQL Editor**, then follow step 2.
 
-### 2. Fix the confirmation email link (important on phones)
+### 2. Update the confirmation email (one-time, about a minute)
 
-Parents often sign up on one app and tap the email link in another, which
+Parents often sign up in one app and tap the email link in another, which
 breaks Supabase's default link. To fix it:
 
-1. In Supabase, go to **Authentication → Emails → Templates → Confirm signup**.
-2. Find the link in the message body (it contains `{{ .ConfirmationURL }}`) and
-   replace that link's URL with:
+1. Open **Authentication → Emails → Templates → Confirm signup**.
+2. Change **Subject** to `Confirm your Dugout Lessons account`.
+3. Replace the **Message body** with:
+   ```html
+   <h2>Welcome to Dugout Lessons!</h2>
+   <p>Tap the link below to confirm your email and finish creating your account.</p>
+   <p><a href="{{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=email">Confirm my email</a></p>
+   <p>If you didn't sign up, you can ignore this email.</p>
    ```
-   {{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email&next=/coach
-   ```
-3. Go to **Authentication → URL Configuration**. Set **Site URL** to
-   `http://localhost:3000` for now (you'll change it when the site goes live).
+4. Click **Save**.
 
-### 3. Add your API keys
+> Supabase's built-in email sender only allows a few emails per hour, which is
+> fine for testing. Before launch, we'll connect Resend so every email goes out.
 
-1. In this folder, copy `.env.example` to a new file named `.env.local`.
+### 3. Add your secret key
+
+1. In this folder, copy `.env.example` to a new file named `.env.local`:
    ```
    cp .env.example .env.local
    ```
-2. In Supabase, go to **Project Settings → API Keys** and paste the values into `.env.local`:
-   - **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`
-     (also shown under Project Settings → Data API)
-   - **Publishable key** (`sb_publishable_...`) → `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
-   - **Secret key** (`sb_secret_...`) → `SUPABASE_SECRET_KEY`
+   The project URL and publishable key are already filled in.
+2. In Supabase, go to **Project Settings → API Keys**. Under **Secret keys**,
+   click the copy icon next to the `default` key. Paste it after
+   `SUPABASE_SECRET_KEY=` in `.env.local`.
 
    ⚠️ The secret key bypasses all security rules. Never share it, post it, or commit it.
    `.env.local` is already ignored by git.
@@ -68,14 +71,13 @@ In a terminal, in this `baseball-booking` folder:
 
 ```bash
 npm install        # downloads the libraries (first time only, takes about a minute)
-npm run seed       # optional: adds 8 sample coaches in Phoenix and Houston
 npm run dev        # starts the site
 ```
 
 Open http://localhost:3000. To try it on your phone, connect to the same
 Wi-Fi and open `http://<your computer's IP>:3000`.
 
-Sample logins created by `npm run seed` (password `Practice123!`):
+Sample logins (password `Practice123!`):
 - `demo-family@example.com` (a parent)
 - `coach.marcus@example.com`, `coach.jamal@example.com`, and so on (coaches)
 
@@ -112,6 +114,22 @@ How a coach goes live:
 Coaches can sign up from any US state, and their time zone is set
 automatically. Families search by **metro area**. To add a new market (say
 "Nashville"), add it to the `METRO_AREAS` list in `src/lib/constants.ts`.
+
+## Before launch: remove the sample data
+
+Run this in the Supabase **SQL Editor** to delete the sample coaches, demo
+family, and their reviews (it only touches `@example.com` accounts):
+
+```sql
+begin;
+create temp table sample_users on commit drop as
+  select id from auth.users where email like '%@example.com';
+delete from public.reviews  where family_id in (select id from sample_users);
+delete from public.bookings where family_id in (select id from sample_users);
+delete from public.coaches  where profile_id in (select id from sample_users);
+delete from auth.users      where id in (select id from sample_users);
+commit;
+```
 
 ## Useful commands
 
