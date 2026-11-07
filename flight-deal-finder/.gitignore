@@ -1,0 +1,7 @@
+# Your private settings and API key — never commit this
+.env
+# Local Python environment and app data
+.venv/
+data/
+__pycache__/
+*.pyc
