@@ -28,10 +28,9 @@ def layer(name, cx, cy, maxw, maxh):
 
 CY = 280
 L = [  # (start, end, png)
-    (33.30, 43.90, layer("gatorade", 540, CY, 460, 470)),
     (46.00, 53.00, layer("gogo", 300, CY, 420, 450)),
     (47.35, 53.00, layer("welchs", 790, CY, 420, 450)),
-    (65.10, 77.00, layer("gatorade", 540, CY, 460, 470)),
+    (73.95, 78.10, layer("gatorade", 540, CY, 460, 470)),
 ]
 fc = ("[0:v]split[a][b];[a]scale=-2:1920,crop=1080:1920,boxblur=30:3,eq=brightness=-0.10[bg];"
       "[b]scale=1080:810:flags=lanczos[fg];[bg][fg]overlay=0:555,eq=saturation=1.06:contrast=1.03,unsharp=5:5:0.3[v0]")
