@@ -26,8 +26,22 @@ def analyze_fare(opt):
     return basic, no_carry
 
 
-def all_in(opt, carry_on=1, checked=0, round_trip=False, united_card=True):
-    """Adds 'all_in', 'bag_cost', 'bag_note' and 'flags' to the option dict."""
+def all_in(opt, carry_on=1, checked=0, round_trip=False, united_card=True, outbound=None):
+    """Adds 'all_in', 'bag_cost', 'bag_note' and 'flags' to the option dict.
+
+    outbound: for a chosen return flight, the outbound flight — each direction is
+    then charged its own airline's bag fees.
+    """
+    if outbound is not None:
+        out = all_in(dict(outbound), carry_on, checked, False, united_card)
+        all_in(opt, carry_on, checked, False, united_card)
+        opt["bag_cost"] += out["bag_cost"]
+        opt["all_in"] = opt["price"] + opt["bag_cost"] if opt.get("price") is not None else None
+        opt["bag_note"] = f"outbound ({out['airline']}): {out['bag_note']}; return ({opt['airline']}): {opt['bag_note']}"
+        for f in out["flags"]:
+            if f not in opt["flags"]:
+                opt["flags"].append(f)
+        return opt
     key, fees = bag_fees.fees_for(opt.get("airline"))
     basic, no_carry = analyze_fare(opt)
     directions = 2 if round_trip else 1

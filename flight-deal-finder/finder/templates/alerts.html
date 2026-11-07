@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="card">
+  <h2>Price alerts</h2>
+  <p class="muted">Alerts are checked every {{ cfg.ALERT_CHECK_HOURS }} hours while the app is running.
+  {% if cfg.NTFY_TOPIC %}Notifications also go to your ntfy app (topic <code>{{ cfg.NTFY_TOPIC }}</code>).{% else %}Want phone notifications? See "Price alerts" in the README.{% endif %}
+  To create one, run a search and use the 🔔 box under the results.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Search</th><th>Target</th><th>Last price</th><th>Last checked</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+    {% for a in alerts %}
+      <tr>
+        <td>{{ a.name }}</td>
+        <td>{{ a.target|money }}</td>
+        <td>{% if a.last_price is not none %}<b class="{{ 'good-text' if a.last_price < a.target }}">{{ a.last_price|money }}</b>{% else %}—{% endif %}</td>
+        <td>{{ a.last_checked|ago }}{% if a.last_error %}<div class="bad-text small">{{ a.last_error }}</div>{% endif %}</td>
+        <td>{{ 'Active' if a.active else 'Paused' }}</td>
+        <td class="nowrap">
+          <form class="inline" method="post" action="{{ url_for('alert_action', alert_id=a.id, action='check') }}"><button class="small" title="Uses credits unless checked within the last hour">Check now</button></form>
+          <form class="inline" method="post" action="{{ url_for('alert_action', alert_id=a.id, action='pause' if a.active else 'resume') }}"><button class="small">{{ 'Pause' if a.active else 'Resume' }}</button></form>
+          <form class="inline" method="post" action="{{ url_for('alert_action', alert_id=a.id, action='delete') }}"><button class="small link">Delete</button></form>
+        </td>
+      </tr>
+    {% else %}<tr><td colspan="6">No alerts yet.</td></tr>{% endfor %}
+    </tbody>
+  </table></div>
+</div>
+<div class="card">
+  <h3>Price drops</h3>
+  {% for e in events %}
+    <div class="event {% if not e.seen %}new{% endif %}">{{ e.created|ago }} — {{ e.message }}</div>
+  {% else %}<p class="muted">Nothing yet.</p>{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% macro sel(name, value, options) -%}
+<select name="{{ name }}">{% for v, label in options %}<option value="{{ v }}" {% if (value|string) == (v|string) %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+{%- endmacro %}
+{% macro hour(name) -%}
+<select name="{{ name }}"><option value="">any</option>{% for h in range(24) %}<option value="{{ h }}" {% if c.get(name) is not none and c.get(name)|string == h|string %}selected{% endif %}>{{ '%d %s'|format(12 if h % 12 == 0 else h % 12, 'AM' if h < 12 else 'PM') }}</option>{% endfor %}</select>
+{%- endmacro %}
+{% block body %}
+<div class="layout">
+<form method="post" action="{{ url_for('do_search') }}" class="card search-form" id="searchForm">
+  <h2>Where to?</h2>
+  <div class="row">
+    <label>From
+      <input name="origin" value="{{ c.get('origin', 'PHX') }}" placeholder="PHX">
+    </label>
+    <label class="check"><input type="checkbox" name="include_nearby" {% if c.get('include_nearby') %}checked{% endif %}> also Mesa (AZA) &amp; Tucson (TUS)</label>
+  </div>
+  <div class="row">
+    <label class="grow">To
+      <input name="destination" value="{{ c.get('destination', '') }}" placeholder="DEN · Chicago · LAX,SAN · anywhere" required>
+      <small>Airport code, several codes separated by commas, a city name, or <b>anywhere</b>.</small>
+    </label>
+  </div>
+
+  <h3>When</h3>
+  <div class="row">
+    <label>Trip {{ sel('trip', c.get('trip', 'round'), [('round','Round trip'),('oneway','One-way')]) }}</label>
+    <label>Dates {{ sel('date_mode', c.get('date_mode', 'exact'), [('exact','Exact dates'),('flex','Flexible ± days'),('weekends','Any weekend in a month')]) }}</label>
+  </div>
+  <div class="row" data-show="exact flex">
+    <label>Depart <input type="date" name="depart" value="{{ c.get('depart', '') }}"></label>
+    <label data-trip="round">Return <input type="date" name="return" value="{{ c.get('return', '') }}"></label>
+    <label data-show="flex">± days {{ sel('flex_days', c.get('flex_days', 3), [(1,'±1'),(2,'±2'),(3,'±3')]) }}</label>
+  </div>
+  <div class="row" data-show="weekends">
+    <label>Month <input type="month" name="month" value="{{ c.get('month', '') }}"></label>
+    <label>Weekend {{ sel('weekend_pattern', c.get('weekend_pattern', 'fri-sun'), [('fri-sun','Fri → Sun'),('thu-sun','Thu → Sun'),('fri-mon','Fri → Mon'),('sat-sun','Sat → Sun')]) }}</label>
+  </div>
+  <p class="hint" id="creditHint"></p>
+
+  <h3>Flight preferences</h3>
+  <div class="row">
+    <label>Cabin {{ sel('cabin', c.get('cabin', 'economy'), [('economy','Economy'),('premium','Premium economy'),('business','Business'),('first','First')]) }}</label>
+    <label>Max stops {{ sel('max_stops', c.get('max_stops', 'any'), [('any','Any'),('0','Nonstop only'),('1','1 stop or fewer'),('2','2 stops or fewer')]) }}</label>
+    <label>Travelers <input type="number" name="adults" min="1" max="9" value="{{ c.get('adults', 1) }}"></label>
+  </div>
+  <div class="row">
+    <label>Max total travel time (hours) <input type="number" step="0.5" min="1" name="max_hours" value="{{ c.get('max_hours') or '' }}"></label>
+    <label>Max layover (hours) <input type="number" step="0.5" min="0.5" name="max_layover_hours" value="{{ c.get('max_layover_hours') or '' }}"></label>
+    <label>Min layover (minutes) <input type="number" step="5" min="20" name="min_layover_minutes" value="{{ c.get('min_layover_minutes') or '' }}"></label>
+  </div>
+
+  <h3>Airlines <small>(2-letter codes: UA United, AA American, DL Delta, WN Southwest, AS Alaska, F9 Frontier, NK Spirit, G4 Allegiant, SY Sun Country)</small></h3>
+  <div class="row">
+    <label>Preferred (bonus points) <input name="preferred_airlines" value="{{ c.get('preferred_airlines', '') }}" placeholder="UA, WN"></label>
+    <label>Only these <input name="only_airlines" value="{{ c.get('only_airlines', '') }}" placeholder="leave blank for all"></label>
+    <label>Exclude <input name="exclude_airlines" value="{{ c.get('exclude_airlines', '') }}" placeholder="NK, F9"></label>
+  </div>
+
+  <h3>Time windows <small>(outbound flight)</small></h3>
+  <div class="row">
+    <label>Leave after {{ hour('dep_start') }}</label>
+    <label>Leave before {{ hour('dep_end') }}</label>
+    <label>Arrive after {{ hour('arr_start') }}</label>
+    <label>Arrive before {{ hour('arr_end') }}</label>
+  </div>
+  <label class="check"><input type="checkbox" name="strict_times" {% if c.get('strict_times') %}checked{% endif %}> Hide flights outside my windows (otherwise they just score lower)</label>
+
+  <h3>Bags <small>(per person, each way)</small></h3>
+  <div class="row">
+    <label>Carry-on bags {{ sel('carry_on', c.get('carry_on', 1), [(0,'0 (personal item only)'),(1,'1')]) }}</label>
+    <label>Checked bags {{ sel('checked', c.get('checked', 0), [(0,'0'),(1,'1'),(2,'2'),(3,'3')]) }}</label>
+  </div>
+
+  <details class="weights" {% if c.get('w_price') %}open{% endif %}>
+    <summary>What matters most? (ranking weights)</summary>
+    {% for key, label, default in [('w_price','All-in price',50),('w_time','Total travel time',25),('w_stops','Fewer stops',15),('w_fit','Fits my time windows',10)] %}
+    <label class="slider">{{ label }} <input type="range" min="0" max="100" name="{{ key }}" value="{{ c.get(key, default) }}" oninput="this.nextElementSibling.textContent=this.value"><output>{{ c.get(key, default) }}</output></label>
+    {% endfor %}
+    <label>"Fastest under" price limit ($) <input type="number" name="fastest_under" value="{{ c.get('fastest_under') or '' }}" placeholder="auto: 25% over cheapest"></label>
+  </details>
+
+  <div class="actions">
+    <button type="submit" class="primary">Search flights</button>
+    <label class="check"><input type="checkbox" name="refresh"> Ignore saved results, get fresh prices</label>
+  </div>
+</form>
+
+<aside class="card">
+  <h3>Recent searches</h3>
+  {% for s in recent %}
+    <div class="recent">
+      <a href="{{ url_for('results', search_id=s.id) }}">{{ s.summary }}</a>
+      <div class="muted">{{ s.created|ago }} · from {{ s.cheapest|money }} · <a href="{{ url_for('index', **{'from': s.id}) }}">edit &amp; rerun</a></div>
+    </div>
+  {% else %}
+    <p class="muted">Your searches will show up here.</p>
+  {% endfor %}
+  {% if demo %}
+  <div class="flash warn">
+    <b>Demo mode:</b> no API key yet, so prices are <b>fake</b>. Paste your SerpApi key here to search real flights
+    (get it at <a href="https://serpapi.com/manage-api-key" target="_blank" rel="noopener">serpapi.com/manage-api-key</a>):
+    <form method="post" action="{{ url_for('setup_key') }}" class="keyform">
+      <input type="password" name="key" placeholder="Your SerpApi API key" autocomplete="off" required>
+      <button class="primary small">Save key</button>
+    </form>
+    <span class="small">It's saved only in the <code>.env</code> file on this computer.</span>
+  </div>
+  {% endif %}
+  <p class="muted small">Repeat searches within {{ cfg.CACHE_HOURS }} hours use saved results and don't use credits.</p>
+</aside>
+</div>
+{% endblock %}

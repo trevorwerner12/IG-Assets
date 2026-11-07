@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block body %}
+<p><a href="{{ url_for('results', search_id=s.id) }}">← Back to results</a></p>
+<div class="card">
+  <h2>Book: {{ out.airlines ~ ' + ' if out and out.airlines != opt.airlines else '' }}{{ opt.airlines }}</h2>
+  {% if out %}<p>Outbound {{ out.outbound_date|nice_date }} {{ out.dep_time|clock }} · {{ out.flight_numbers }}<br>Return {{ opt.return_date|nice_date }} {{ opt.dep_time|clock }} · {{ opt.flight_numbers }}</p>
+  {% else %}<p>{{ opt.outbound_date|nice_date }} {{ opt.dep_time|clock }} → {{ opt.arr_time|clock }} · {{ opt.flight_numbers }}</p>{% endif %}
+  <p>Your estimated all-in: <b>{{ opt.all_in|money }}</b> <span class="muted">({{ opt.price|money }} fare + {{ opt.bag_cost|money }} bags: {{ opt.bag_note }})</span></p>
+  {% for f in opt.flags %}<span class="tag {% if f in ('Basic economy','No carry-on allowed','Carry-on costs extra') %}bad{% elif 'free' in f %}good{% endif %}">{{ f }}</span>{% endfor %}
+  {% if 'United card: 1st bag free' in opt.flags %}<p class="muted small">Remember: pay with your United Explorer card and add your MileagePlus number to get the free bag.</p>{% endif %}
+</div>
+<div class="card">
+  <h3>Where to book</h3>
+  {% for l in links %}
+    <form class="booking" method="post" action="{{ l.url }}" target="_blank">
+      {% for k, v in l.fields %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endfor %}
+      <div><b>{{ l.book_with }}</b>{% if l.title %} · {{ l.title }}{% endif %}{% if l.separate %} <span class="tag bad">separate tickets</span>{% endif %}
+        {% if l.baggage %}<div class="muted small">{{ l.baggage|join(' · ') }}</div>{% endif %}</div>
+      <div class="price">{{ l.price|money }}</div>
+      <button class="primary small">Go to site ↗</button>
+    </form>
+  {% else %}
+    <p>No booking options were returned.</p>
+  {% endfor %}
+  {% if gurl %}<p><a href="{{ gurl }}" target="_blank" rel="noopener">Or open this search on Google Flights ↗</a></p>{% endif %}
+  <p class="muted small">{% if info.cached %}Loaded from saved results.{% elif info.demo %}Demo links don't go anywhere real.{% else %}Used 1 credit.{% endif %} Always double-check the final price and bag rules on the airline's site before paying.</p>
+</div>
+{% endblock %}

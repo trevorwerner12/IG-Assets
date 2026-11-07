@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% from "_macros.html" import flight_table %}
+{% block body %}
+<p><a href="{{ url_for('results', search_id=s.id) }}">← Back to results</a></p>
+<div class="card">
+  <h2>Outbound: {{ out.airlines }} · {{ out.outbound_date|nice_date }}</h2>
+  <p>{{ out.dep_time|clock }} {{ out.origin }} → {{ out.arr_time|clock }} {{ out.destination }} · {{ out.duration_text }} · {{ 'Nonstop' if out.stops == 0 else (out.stops|string + ' stop') }}</p>
+  <p class="muted small">{% if info.cached %}Return flights loaded from saved results ({{ info.age_min }} min old).{% elif info.demo %}Demo data.{% else %}Used 1 credit.{% endif %}</p>
+</div>
+<div class="card">
+  <h3>Return flights on {{ out.return_date|nice_date }} <small class="muted">prices are the round-trip total</small></h3>
+  {% if rets %}
+    {{ flight_table(rets, s, True, out=out, table_id='returns') }}
+  {% else %}
+    <p>No return flights matched your filters.</p>
+  {% endif %}
+</div>
+{% endblock %}

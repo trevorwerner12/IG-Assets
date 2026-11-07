@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="card">
+  <div class="table-head">
+    <h2>Past searches</h2>
+    <form method="post" action="{{ url_for('clear_cache') }}" onsubmit="return confirm('Forget saved API results? Your history stays; next searches will use credits.')"><button class="small">Clear saved API results</button></form>
+  </div>
+  <div class="table-wrap"><table class="sortable">
+    <thead><tr><th data-type="num">When</th><th>Search</th><th data-type="num">Cheapest all-in</th><th></th></tr></thead>
+    <tbody>
+    {% for s in searches %}
+      <tr>
+        <td data-v="{{ s.created }}">{{ s.created|ago }}</td>
+        <td><a href="{{ url_for('results', search_id=s.id) }}">{{ s.summary }}</a></td>
+        <td data-v="{{ s.cheapest or 0 }}">{{ s.cheapest|money }}</td>
+        <td class="nowrap">
+          <a class="button small" href="{{ url_for('index', **{'from': s.id}) }}">Edit &amp; rerun</a>
+          <form class="inline" method="post" action="{{ url_for('delete_history', search_id=s.id) }}"><button class="small link">Delete</button></form>
+        </td>
+      </tr>
+    {% else %}<tr><td colspan="4">No searches yet.</td></tr>{% endfor %}
+    </tbody>
+  </table></div>
+</div>
+{% endblock %}

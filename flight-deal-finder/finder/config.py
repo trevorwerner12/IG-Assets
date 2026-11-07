@@ -41,3 +41,20 @@ UNITED_EXPLORER_CARD = _bool("UNITED_EXPLORER_CARD", True)
 ALERT_CHECK_HOURS = _int("ALERT_CHECK_HOURS", 12)
 NTFY_TOPIC = os.getenv("NTFY_TOPIC", "").strip()
 PORT = _int("PORT", 5055)
+
+
+def save_api_key(key):
+    """Write SERPAPI_KEY into the .env file (creating it if needed) and use it right away."""
+    key = key.strip()
+    env = APP_DIR / ".env"
+    example = APP_DIR / ".env.example"
+    lines = env.read_text().splitlines() if env.exists() else (
+        example.read_text().splitlines() if example.exists() else [])
+    for i, line in enumerate(lines):
+        if line.strip().startswith("SERPAPI_KEY="):
+            lines[i] = f"SERPAPI_KEY={key}"
+            break
+    else:
+        lines.append(f"SERPAPI_KEY={key}")
+    env.write_text("\n".join(lines) + "\n")
+    os.environ["SERPAPI_KEY"] = key

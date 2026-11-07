@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="card narrow">
+  <h2>This search will use {{ r.credits }} API credits</h2>
+  <p>You're checking {{ r.dates }} different dates, and each date not already saved costs 1 SerpApi search credit.
+  {% if account and account.left is not none %}You have <b>{{ account.left }}</b> left this month.{% endif %}</p>
+  <form method="post" action="{{ url_for('do_search') }}">
+    {% for k, v in form.items(multi=True) %}{% if k != 'confirmed' %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endif %}{% endfor %}
+    <input type="hidden" name="confirmed" value="1">
+    <button class="primary">Yes, use {{ r.credits }} credits</button>
+    <a class="button" href="javascript:history.back()">Go back and narrow dates</a>
+  </form>
+</div>
+{% endblock %}

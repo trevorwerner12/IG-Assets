@@ -1,0 +1,61 @@
+{% macro flight_table(opts, s, round_trip, out=None, limit=None, table_id='results') %}
+<div class="table-wrap">
+<table class="sortable" id="{{ table_id }}">
+<thead><tr>
+  <th data-type="num">#</th>
+  <th data-type="num" title="Value score 0-100 using your weights">Score</th>
+  <th data-type="num" title="Fare + estimated bag fees">All-in</th>
+  <th data-type="num">Fare</th>
+  <th>Airline</th>
+  {% if not out %}<th data-type="text">Date</th>{% endif %}
+  <th data-type="text">Depart</th>
+  <th data-type="text">Arrive</th>
+  <th data-type="num">Duration</th>
+  <th data-type="num">Stops</th>
+  <th>Notes</th>
+  <th></th>
+</tr></thead>
+<tbody>
+{% for o in opts %}{% if not limit or loop.index <= limit %}
+<tr class="{% if o.basic_economy %}basic{% endif %}">
+  <td data-v="{{ loop.index }}">{{ loop.index }}</td>
+  <td data-v="{{ o.score }}"><span class="score" style="--s: {{ o.score }}">{{ o.score|round|int }}</span></td>
+  <td class="nw" data-v="{{ o.all_in }}"><b>{{ o.all_in|money }}</b>{% if round_trip %}<div class="muted small">round trip</div>{% endif %}</td>
+  <td data-v="{{ o.price }}">{{ o.price|money }}<div class="muted small" title="{{ o.bag_note }}">+{{ o.bag_cost|money }} bags</div></td>
+  <td>{% if o.airline_logo %}<img class="logo" src="{{ o.airline_logo }}" alt="">{% endif %}{{ o.airlines }}{% if o.is_preferred %} <span class="tag good">preferred</span>{% endif %}
+      <div class="muted small">{{ o.flight_numbers }}</div></td>
+  {% if not out %}<td class="nw" data-v="{{ o.outbound_date }}">{{ o.outbound_date|nice_date }}{% if o.return_date %}<div class="muted small">ret {{ o.return_date|nice_date }}</div>{% endif %}</td>{% endif %}
+  <td class="nw" data-v="{{ o.dep_time }}">{{ o.dep_time|clock }}<div class="muted small">{{ o.origin }}</div></td>
+  <td class="nw" data-v="{{ o.arr_time }}">{{ o.arr_time|clock }}<div class="muted small">{{ o.destination }}</div></td>
+  <td class="nw" data-v="{{ o.total_minutes }}">{{ o.duration_text }}</td>
+  <td data-v="{{ o.stops }}">{% if o.stops == 0 %}Nonstop{% else %}{{ o.stops }} stop{{ 's' if o.stops > 1 }}
+      <div class="muted small">{% for l in o.layovers %}{{ l.airport }} {{ (l.minutes // 60) }}h{{ '%02d'|format(l.minutes % 60) }}{{ ', ' if not loop.last }}{% endfor %}</div>{% endif %}</td>
+  <td>{% for f in o.flags %}<span class="tag {% if f in ('Basic economy','No carry-on allowed','Carry-on costs extra','Overnight layover') %}bad{% elif 'free' in f %}good{% endif %}">{{ f }}</span>{% endfor %}</td>
+  <td class="nowrap">
+    {% if o.departure_token %}
+      <a class="button small" href="{{ url_for('returns', search_id=s.id, opt_id=o.id) }}" title="Uses 1 credit the first time">Pick return →</a>
+    {% elif o.booking_token %}
+      <a class="button small primary" href="{{ url_for('book', search_id=s.id, opt_id=o.id, out=out.id if out else None) }}" title="Uses 1 credit the first time">Book →</a>
+    {% endif %}
+    {% if o.search_url %}<a class="small" href="{{ o.search_url }}" target="_blank" rel="noopener">Google Flights ↗</a>{% endif %}
+  </td>
+</tr>
+{% endif %}{% endfor %}
+</tbody>
+</table>
+</div>
+{% endmacro %}
+
+{% macro pick_card(title, o, note='') %}
+<div class="pick">
+  <div class="pick-title">{{ title }}</div>
+  {% if o %}
+    <div class="pick-price">{{ o.all_in|money }}</div>
+    <div>{{ o.airlines }} · {{ o.outbound_date|nice_date }}</div>
+    <div class="muted small">{{ o.dep_time|clock }} → {{ o.arr_time|clock }} · {{ o.duration_text }} · {{ 'Nonstop' if o.stops == 0 else (o.stops|string + ' stop') }}</div>
+    {% if note %}<div class="muted small">{{ note }}</div>{% endif %}
+  {% else %}
+    <div class="muted">{{ note or 'None found' }}</div>
+  {% endif %}
+</div>
+{% endmacro %}

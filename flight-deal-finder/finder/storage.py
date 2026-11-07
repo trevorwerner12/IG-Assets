@@ -2,6 +2,7 @@
 import json
 import sqlite3
 import time
+from contextlib import contextmanager
 
 from . import config
 
@@ -25,12 +26,18 @@ CREATE TABLE IF NOT EXISTS alert_events (
 """
 
 
+@contextmanager
 def connect():
+    """Open the database, save changes when done, and always close it."""
     config.DATA_DIR.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(config.DB_PATH, timeout=10)
     conn.row_factory = sqlite3.Row
-    conn.executescript(SCHEMA)
-    return conn
+    try:
+        conn.executescript(SCHEMA)
+        with conn:
+            yield conn
+    finally:
+        conn.close()
 
 
 # ---------- cache ----------
@@ -63,6 +70,12 @@ def save_search(criteria, summary, cheapest, results):
             "INSERT INTO searches (created, criteria, summary, cheapest, results) VALUES (?,?,?,?,?)",
             (time.time(), json.dumps(criteria), summary, cheapest, json.dumps(results)))
         return cur.lastrowid
+
+
+def update_search(search_id, criteria, summary, cheapest, results):
+    with connect() as c:
+        c.execute("UPDATE searches SET criteria=?, summary=?, cheapest=?, results=? WHERE id=?",
+                  (json.dumps(criteria), summary, cheapest, json.dumps(results), search_id))
 
 
 def get_search(search_id):

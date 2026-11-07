@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% from "_macros.html" import flight_table, pick_card %}
+{% block title %}{{ s.summary }} · Flight Deal Finder{% endblock %}
+{% block body %}
+<div class="results-head">
+  <div>
+    <h2>{{ s.summary }}</h2>
+    <div class="muted">
+      Searched {{ s.created|ago }} ·
+      {% if r.demo %}<b>demo data</b>{% else %}{{ r.credits_used }} credit{{ 's' if r.credits_used != 1 }} used{% if r.cached_dates %}, {{ r.cached_dates }} date(s) from saved results{% endif %}{% endif %}
+      · {{ c.carry_on }} carry-on, {{ c.checked }} checked bag{{ 's' if c.checked != 1 }}
+      {% if cfg.UNITED_EXPLORER_CARD %} · United card ✓{% endif %}
+    </div>
+  </div>
+  <div class="head-actions">
+    <a class="button" href="{{ url_for('index', **{'from': s.id}) }}">Edit search</a>
+    <form method="post" action="{{ url_for('refresh', search_id=s.id) }}" onsubmit="return confirm('Get fresh prices? This uses API credits ({{ (r.calendar|length) if r.calendar else 1 }}).')"><button>Refresh prices</button></form>
+  </div>
+</div>
+
+{% if r.stopped %}<div class="flash error">{{ r.stopped }} Showing what was found before the limit.</div>{% endif %}
+{% for e in r.errors or [] %}<div class="flash warn">{{ e }}</div>{% endfor %}
+
+{% if r.kind == 'explore' %}
+  <div class="card">
+    <h3>Cheapest places to go</h3>
+    <p class="muted">Prices are Google's estimates (fare only). Click a destination to get full flight details, bag fees and rankings.</p>
+    <div class="table-wrap"><table class="sortable">
+      <thead><tr><th>Destination</th><th data-type="num">From</th><th>Dates</th><th>Airline</th><th data-type="num">Stops</th><th>Flight time</th><th></th></tr></thead>
+      <tbody>
+      {% for d in r.destinations %}
+      <tr>
+        <td><b>{{ d.name }}</b> <span class="muted">{{ d.country }} · {{ d.code }}</span></td>
+        <td data-v="{{ d.price }}"><b>{{ d.price|money }}</b></td>
+        <td>{{ d.depart|nice_date }}{% if d.return %} → {{ d.return|nice_date }}{% endif %}</td>
+        <td>{{ d.airline or '' }}</td>
+        <td data-v="{{ d.stops if d.stops is not none else 9 }}">{{ 'Nonstop' if d.stops == 0 else (d.stops if d.stops is not none else '') }}</td>
+        <td>{{ d.duration_text }}</td>
+        <td><a class="button small primary" href="{{ url_for('index', **{'from': s.id, 'destination': d.code, 'date_mode': 'exact', 'depart': d.depart, 'return': d.return or ''}) }}">Search flights →</a></td>
+      </tr>
+      {% else %}<tr><td colspan="7">No destinations found.</td></tr>{% endfor %}
+      </tbody>
+    </table></div>
+  </div>
+{% else %}
+
+{% if not r.options %}
+  <div class="card"><h3>No flights matched.</h3><p>Try allowing more stops, a longer max travel time, or removing airline/time-window filters.</p></div>
+{% else %}
+  <div class="picks">
+    {{ pick_card('🏆 Best value', r.picks.best, 'Score ' ~ r.picks.best.score ~ ' / 100') }}
+    {{ pick_card('💰 Cheapest overall', r.picks.cheapest) }}
+    {{ pick_card('⚡ Fastest under ' ~ (r.picks.fastest_limit|money), r.picks.fastest, '' if r.picks.fastest else 'Nothing under that price') }}
+  </div>
+
+  {% if grid %}
+  <div class="card">
+    <h3>Price calendar <small class="muted">cheapest all-in price by departure date{% if r.round_trip %} (round trip){% endif %}</small></h3>
+    <div class="months">
+    {% for m in grid %}
+      <div class="month">
+        <div class="month-title">{{ m.title }}</div>
+        <div class="cal">
+          {% for d in ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] %}<div class="dow">{{ d }}</div>{% endfor %}
+          {% for week in m.weeks %}{% for cell in week %}
+            {% if cell.info and cell.info.price %}
+              <div class="day has {% if cell.info.cheapest %}cheapest{% endif %}" style="--h: {{ cell.heat }}" title="{{ cell.info.depart|nice_date }}{% if cell.info.return %} → {{ cell.info.return|nice_date }}{% endif %}{% if cell.info.level %} · Google says prices are {{ cell.info.level }}{% endif %}">
+                <span class="dnum">{{ cell.day }}</span><span class="dprice">{{ cell.info.price|money }}</span>
+              </div>
+            {% elif cell.info %}
+              <div class="day none" title="{{ cell.info.note }}"><span class="dnum">{{ cell.day }}</span><span class="dprice">{{ cell.info.note or '—' }}</span></div>
+            {% else %}
+              <div class="day {% if not cell.in_month %}out{% endif %}"><span class="dnum">{{ cell.day }}</span></div>
+            {% endif %}
+          {% endfor %}{% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% set ins = r.insights.values()|list %}
+  {% if ins and ins|length == 1 and ins[0].price_level %}
+    <p class="muted">Google says prices for this trip are currently <b>{{ ins[0].price_level }}</b>{% if ins[0].typical_price_range %} (usually {{ ins[0].typical_price_range[0]|money }}–{{ ins[0].typical_price_range[1]|money }} fare){% endif %}.</p>
+  {% endif %}
+
+  <div class="card">
+    <div class="table-head">
+      <h3>{% if show_all %}All {{ r.options|length }} flights{% else %}Top {{ [10, r.options|length]|min }} of {{ r.options|length }}{% endif %}</h3>
+      <div>
+        {% if show_all %}<a href="{{ url_for('results', search_id=s.id) }}">Show top 10</a>{% else %}<a href="{{ url_for('results', search_id=s.id, all=1) }}">Show all {{ r.options|length }}</a>{% endif %}
+        <span class="muted small">· click a column header to sort</span>
+      </div>
+    </div>
+    {% if r.round_trip %}<p class="muted small">Round trip: prices are the total for both directions; bag fees are counted both ways. Click <b>Pick return</b> to see return flights and booking links.</p>{% endif %}
+    {{ flight_table(r.options, s, r.round_trip, limit=None if show_all else 10) }}
+  </div>
+
+  <div class="two">
+  <form class="card" method="post" action="{{ url_for('rerank', search_id=s.id) }}">
+    <h3>Re-rank (free — no credits)</h3>
+    {% for key, label in [('w_price','All-in price'),('w_time','Travel time'),('w_stops','Fewer stops'),('w_fit','Time-window fit')] %}
+      <label class="slider">{{ label }} <input type="range" min="0" max="100" name="{{ key }}" value="{{ c[key] }}" oninput="this.nextElementSibling.textContent=this.value"><output>{{ c[key] }}</output></label>
+    {% endfor %}
+    <div class="row">
+      <label>Carry-ons <select name="carry_on">{% for n in [0,1] %}<option {% if c.carry_on == n %}selected{% endif %}>{{ n }}</option>{% endfor %}</select></label>
+      <label>Checked bags <select name="checked">{% for n in [0,1,2,3] %}<option {% if c.checked == n %}selected{% endif %}>{{ n }}</option>{% endfor %}</select></label>
+      <label>Fastest under $ <input type="number" name="fastest_under" value="{{ c.fastest_under or '' }}"></label>
+    </div>
+    <button>Re-rank</button>
+  </form>
+
+  <form class="card" method="post" action="{{ url_for('new_alert', search_id=s.id) }}">
+    <h3>🔔 Price alert</h3>
+    <p class="muted">Re-check this search every {{ cfg.ALERT_CHECK_HOURS }} hours (while the app is open) and tell me when the cheapest all-in price drops below:</p>
+    <div class="row">
+      <label>Target $ <input type="number" name="target" required value="{{ ((r.picks.cheapest.all_in * 0.9)|round|int) if r.picks.cheapest else '' }}"></label>
+      <button class="primary">Save alert</button>
+    </div>
+    <p class="muted small">Each check uses {{ (r.calendar|length) if r.calendar else 1 }} credit(s).</p>
+  </form>
+  </div>
+{% endif %}
+{% endif %}
+{% endblock %}

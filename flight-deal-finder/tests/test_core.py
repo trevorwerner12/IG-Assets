@@ -77,6 +77,13 @@ class Pricing(unittest.TestCase):
         self.assertIn("No carry-on allowed", o["flags"])
         self.assertEqual(o["all_in"], 200 + 35 + 25)
 
+    def test_mixed_airlines_round_trip(self):
+        out = opt("Southwest", code="WN")
+        ret = pricing.all_in(opt("Frontier", code="F9", price=300), carry_on=1, checked=1, outbound=out)
+        # Southwest out: carry-on free + bag $35;  Frontier back: carry-on $60 + bag $55
+        self.assertEqual(ret["bag_cost"], 35 + 60 + 55)
+        self.assertEqual(ret["all_in"], 300 + 150)
+
     def test_no_bags_no_fees(self):
         o = pricing.all_in(opt("Frontier", code="F9", price=50), carry_on=0, checked=0)
         self.assertEqual(o["all_in"], 50)

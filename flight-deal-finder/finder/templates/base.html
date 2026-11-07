@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Flight Deal Finder{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="{{ url_for('index') }}">✈️ Flight Deal Finder</a>
+  <nav>
+    <a href="{{ url_for('index') }}">Search</a>
+    <a href="{{ url_for('history') }}">Past searches</a>
+    <a href="{{ url_for('alerts_page') }}">Price alerts{% if unseen %} <span class="badge">{{ unseen }}</span>{% endif %}</a>
+  </nav>
+  <div class="credits">
+    {% if demo %}
+      <span class="pill warn" title="No SERPAPI_KEY in .env — showing fake sample flights">DEMO MODE · fake data</span>
+    {% elif account and account.error %}
+      <span class="pill bad">{{ account.error }}</span>
+    {% elif account %}
+      <span class="pill" title="Searches left on your SerpApi plan this month">{{ account.left }} searches left{% if account.per_month %} / {{ account.per_month }}{% endif %}</span>
+    {% endif %}
+  </div>
+</header>
+<main>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for cat, m in messages %}<div class="flash {{ cat }}">{{ m }}</div>{% endfor %}
+  {% endwith %}
+  {% block body %}{% endblock %}
+</main>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

@@ -234,16 +234,16 @@ def local_filter(options, c):
     return out
 
 
-def finish_options(options, c, round_trip):
+def finish_options(options, c, round_trip, outbound=None):
     for o in options:
-        pricing.all_in(o, c["carry_on"], c["checked"], round_trip, config.UNITED_EXPLORER_CARD)
+        pricing.all_in(o, c["carry_on"], c["checked"], round_trip, config.UNITED_EXPLORER_CARD, outbound)
         o["duration_text"] = _hhmm(o["total_minutes"])
     weights = {"price": c["w_price"], "time": c["w_time"], "stops": c["w_stops"], "fit": c["w_fit"]}
     return ranking.score_all(options, weights, windows(c), c["preferred_airlines"].split(","))
 
 
 # ---------------- main entry points ----------------
-def plan(c):
+def plan(c, max_age_hours=None):
     """How many API credits would this search use? (cached dates are free)"""
     validate(c)
     pairs = date_list(c)
@@ -251,12 +251,12 @@ def plan(c):
         params = [explore_params(c, d, r) for d, r in pairs]
     else:
         params = [base_params(c, d, r) for d, r in pairs]
-    need = sum(0 if is_cached(p) else 1 for p in params)
+    need = sum(0 if is_cached(p, max_age_hours) else 1 for p in params)
     return pairs, params, need
 
 
-def run(c, force_refresh=False, confirmed=False):
-    pairs, params_list, need = plan(c)
+def run(c, force_refresh=False, confirmed=False, max_age_hours=None):
+    pairs, params_list, need = plan(c, max_age_hours)
     if force_refresh:
         need = len(params_list)
     if need > config.MAX_CREDITS_PER_SEARCH:
@@ -266,7 +266,7 @@ def run(c, force_refresh=False, confirmed=False):
         return {"needs_confirm": True, "credits": need, "dates": len(pairs)}
 
     if airports.is_anywhere(c["destination"]):
-        return run_explore(c, pairs, params_list, force_refresh)
+        return run_explore(c, pairs, params_list, force_refresh, max_age_hours)
 
     round_trip = c["trip"] == "round"
     all_opts, calendar, insights, errors = [], [], {}, []
@@ -277,7 +277,7 @@ def run(c, force_refresh=False, confirmed=False):
             calendar.append({"depart": d, "return": r, "price": None, "note": "not checked"})
             continue
         try:
-            data, info = fetch(p, use_cache=not force_refresh)
+            data, info = fetch(p, use_cache=not force_refresh, max_age_hours=max_age_hours)
         except ApiError as e:
             if e.kind in ("limit", "key", "network"):
                 stopped = str(e)
@@ -326,11 +326,11 @@ def explore_params(c, d, r):
     return p
 
 
-def run_explore(c, pairs, params_list, force_refresh):
+def run_explore(c, pairs, params_list, force_refresh, max_age_hours=None):
     dests, used, stopped = {}, 0, None
     for (d, r), p in zip(pairs, params_list):
         try:
-            data, info = fetch(p, use_cache=not force_refresh)
+            data, info = fetch(p, use_cache=not force_refresh, max_age_hours=max_age_hours)
         except ApiError as e:
             stopped = str(e)
             break
@@ -363,7 +363,7 @@ def returns_for(c, outbound_opt, force_refresh=False):
     for o in opts:
         o["id"] = "r" + o["id"]
     c2 = {**c, "strict_times": False, "dep_start": None, "dep_end": None, "arr_start": None, "arr_end": None}
-    opts = finish_options(local_filter(opts, c2), c2, True)
+    opts = finish_options(local_filter(opts, c2), c2, True, outbound=outbound_opt)
     return opts, info
 
 
