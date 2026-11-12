@@ -16,12 +16,22 @@ def layer(name, cx, cy, maxw, maxh):
     img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)), (x + 8, y + 12)); img.alpha_composite(g, (x, y))
     p = f"{G}/L_{name}.png"; img.save(p); return p
 
-# products on the left half of the top band
-CX, CY = 280, 285
+def shelf(name, cx, base, maxw, maxh):
+    """product bottom-aligned on a shared baseline so the lineup reads like a shelf"""
+    img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    g = Image.open(f"{G}/{name}.png").convert("RGBA")
+    k = min(maxw / g.width, maxh / g.height); g = g.resize((int(g.width * k), int(g.height * k)), Image.LANCZOS)
+    x, y = cx - g.width // 2, base - g.height
+    sh = Image.new("RGBA", g.size, (0, 0, 0, 0)); sh.putalpha(g.getchannel("A").point(lambda v: int(v * 0.45)))
+    img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)), (x + 8, y + 12)); img.alpha_composite(g, (x, y))
+    p = f"{G}/S_{name}.png"; img.save(p); return p
+
+# products line up on the left half and stay on screen once named
+BASE, END = 470, DUR
 L = [
-    (22.50, 32.00, layer("espresso", CX, CY, 400, 440)),   # "cup of coffee ... espresso"
-    (37.70, 44.60, layer("c4", CX, CY, 400, 460)),         # "rip a C4"
-    (52.60, 60.00, layer("p4", CX, CY, 420, 440)),         # "full scoop of P4"
+    (22.50, END, shelf("espresso", 110, BASE, 220, 250)),   # "cup of coffee ... espresso"
+    (37.70, END, shelf("c4", 285, BASE, 190, 400)),         # "rip a C4"
+    (52.60, END, shelf("p4", 445, BASE, 210, 260)),         # "full scoop of P4"
 ]
 
 # caffeine counter on the right half: (ramp start, ramp end, new total, pop label)
