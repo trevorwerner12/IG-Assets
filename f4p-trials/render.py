@@ -33,10 +33,41 @@ def dur(p):
                                 capture_output=True, text=True).stdout)
 
 
+def gfx_png(name, cx, maxw, maxh, path, baseline=495):
+    from PIL import ImageFilter
+    img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    g = Image.open(os.path.join(D, "gfx", name + ".png")).convert("RGBA")
+    k = min(maxw / g.width, maxh / g.height); g = g.resize((int(g.width * k), int(g.height * k)), Image.LANCZOS)
+    x, y = cx - g.width // 2, baseline - g.height
+    sh = Image.new("RGBA", g.size, (0, 0, 0, 0)); sh.putalpha(g.getchannel("A").point(lambda v: int(v * 0.45)))
+    img.alpha_composite(sh.filter(ImageFilter.GaussianBlur(10)), (x + 8, y + 12)); img.alpha_composite(g, (x, y))
+    img.save(path); return path
+
+
 def base(ep):
-    out = os.path.join(SP, f"f4p_base_ep{ep}.mp4")
+    """blurred 1080x1920 version of the episode, with its food graphics (eps 1-4) burned in"""
     if ep in SRC:
         return SRC[ep]
+    plain = base_plain(ep)
+    spec = PLAN.get("gfx", {}).get(ep)
+    if not spec:
+        return plain
+    out = os.path.join(SP, f"f4p_gfx_ep{ep}.mp4")
+    if os.path.exists(out) and os.path.getmtime(out) > os.path.getmtime(os.path.join(D, "plan.json")):
+        return out
+    T = dur(plain); args = ["ffmpeg", "-v", "error", "-y", "-i", plain]; fc = []
+    for k, (name, a, b, cx, mw, mh) in enumerate(spec):
+        args += ["-loop", "1", "-framerate", "30", "-t", f"{T:.2f}", "-i", gfx_png(name, cx, mw, mh, os.path.join(SP, f"f4p_g{ep}_{k}.png"))]
+        fc.append(f"[{k+1}:v]format=rgba,fade=t=in:st={a}:d=0.18:alpha=1,fade=t=out:st={b-0.18:.2f}:d=0.18:alpha=1[g{k}]")
+        fc.append(f"[{'0:v' if k == 0 else f'b{k}'}][g{k}]overlay=0:0:enable='between(t,{a},{b})'[b{k+1}]")
+    fc.append(f"[b{len(spec)}]format=yuv420p[v]")
+    run(args + ["-filter_complex", ";".join(fc), "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-preset", "slow",
+                "-crf", "17", "-c:a", "copy", "-movflags", "+faststart", out])
+    return out
+
+
+def base_plain(ep):
+    out = os.path.join(SP, f"f4p_base_ep{ep}.mp4")
     if os.path.exists(out):
         return out
     d = os.path.join(SP, f"f4p_ep{ep}"); os.makedirs(d, exist_ok=True)
