@@ -1,0 +1,135 @@
+{
+ "order": [
+  "4",
+  "7",
+  "5",
+  "6",
+  "1",
+  "2",
+  "3"
+ ],
+ "start_date": "2026-11-14",
+ "per_day": 3,
+ "variants": {
+  "1": {
+   "name": "cold open",
+   "cold": true,
+   "speed": 1.0,
+   "punch": false,
+   "hook": false,
+   "caps": false
+  },
+  "2": {
+   "name": "1.1x",
+   "cold": false,
+   "speed": 1.1,
+   "punch": false,
+   "hook": false,
+   "caps": false
+  },
+  "3": {
+   "name": "cold open + 1.1x",
+   "cold": true,
+   "speed": 1.1,
+   "punch": false,
+   "hook": false,
+   "caps": false
+  },
+  "4": {
+   "name": "1.05x + punchy color + hook text",
+   "cold": false,
+   "speed": 1.05,
+   "punch": true,
+   "hook": true,
+   "caps": false
+  },
+  "5": {
+   "name": "cold open + 1.05x + captions",
+   "cold": true,
+   "speed": 1.05,
+   "punch": false,
+   "hook": false,
+   "caps": true
+  },
+  "6": {
+   "name": "cold open + 1.1x + punchy color + hook + captions",
+   "cold": true,
+   "speed": 1.1,
+   "punch": true,
+   "hook": true,
+   "caps": true
+  }
+ },
+ "eps": {
+  "1": {
+   "name": "Justin “JJ” Johnson",
+   "tag": "@jjohnson_12",
+   "cut": 22.8,
+   "shift": 0.0,
+   "hook": [
+    "WHAT A ROYALS PROSPECT",
+    "EATS BEFORE A GAME"
+   ]
+  },
+  "2": {
+   "name": "Carson “Ric” Roccaforte",
+   "tag": "@carson_roccaforte7",
+   "cut": 20.2,
+   "shift": 0.0,
+   "hook": [
+    "A ROYALS PROSPECT'S",
+    "GO-TO CHEAT MEAL"
+   ]
+  },
+  "3": {
+   "name": "Jared Dickey",
+   "tag": "@jared.dickey",
+   "cut": 18.1,
+   "shift": 0.0,
+   "hook": [
+    "NO SNACKS ALLOWED",
+    "IN THE DUGOUT?!"
+   ]
+  },
+  "4": {
+   "name": "Olivia Lightholder",
+   "tag": "@livvylightholder",
+   "cut": 9.4,
+   "shift": 0.0,
+   "hook": [
+    "AN SEC CHEERLEADER'S",
+    "HALFTIME SNACK"
+   ]
+  },
+  "5": {
+   "name": "Carter Jensen",
+   "tag": "@carterjensenn",
+   "cut": 18.4,
+   "shift": 0.0,
+   "hook": [
+    "A ROYALS CATCHER'S",
+    "POST-GAME CHEAT MEAL"
+   ]
+  },
+  "6": {
+   "name": "Sam Kulasingam",
+   "tag": "@samkula_",
+   "cut": 17.75,
+   "shift": 0.0,
+   "hook": [
+    "WHAT PRO BALLPLAYERS",
+    "EAT MID-INNING"
+   ]
+  },
+  "7": {
+   "name": "Brett Squires",
+   "tag": "@brettsquires_",
+   "cut": 11.75,
+   "shift": 0.42,
+   "hook": [
+    "HOW MUCH CAFFEINE",
+    "DOES A PRO TAKE?"
+   ]
+  }
+ }
+}
