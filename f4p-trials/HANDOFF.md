@@ -30,6 +30,16 @@ The episode order is in `plan.json` (4, 7, 5, 6, 1, 2, 3). Every episode gets va
 - `transcripts.json`: word timestamps for all 7 episodes (whisper base.en) plus the original captions.
   For Ep. 7 the timestamps come from the IG copy, which starts about 0.42 s later than the repo file (`shift`).
 
+## Food graphics (added after the handoff)
+Ep. 1-4 now get product pop-ups in the top blur band (`plan.json` → `gfx`, images in `f4p-trials/gfx/`):
+- Ep. 1: rice, potato, pasta at "carbohydrates", a Chipotle bowl, then carbs again.
+- Ep. 2: Raising Cane's Box Combo, then the Caniac Combo.
+- Ep. 3: Dubble Bubble, then DAVID seeds.
+- Ep. 4: Zebra Cakes, then Oatmeal Creme Pies.
+
+`render.py base EP` burns them into the episode base, so every variant inherits them at the right speed and cut.
+Ep. 4 v1 and v6 are already re-rendered with them. **Render no Ep. 1-4 variant from a commit before 2c17a06.**
+
 ## Rendering (run locally, not in the sandbox, which has 1 CPU and <1 GB RAM)
 ```
 cd f4p-trials
