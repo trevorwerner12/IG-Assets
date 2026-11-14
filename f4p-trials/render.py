@@ -102,10 +102,20 @@ PHRASES = {  # per-episode transcript corrections: lowercase word run -> replace
     "5": [(["chocolate", "meal", "looks"], ["chocolate", "milk's"]), (["stomachs", "that"], ["stomach,", "so"])],
     "6": [(["between-inning-snack?"], ["between-inning", "snack?"]), (["between-inning-snack"], ["between-inning", "snack"])],
     "7": [(["usually", "in", "espresso"], ["usually", "an", "espresso"])],
+    "2": [(["trying", "to", "cheat"], ["try", "not", "to", "cheat"]), (["canes"], ["Cane's"])],
+    "3": [(["to", "win", "food"], ["to", "have", "food"])],
+}
+# stretches where the audio is too muddy for whisper: (start, end, replacement words), source seconds
+RANGES = {
+    "1": [(42.2, 46.2, ["and", "hits", "the", "home", "runs.", "He", "gets", "Chipotle", "a", "lot", "before", "the", "game."])],
 }
 
 
 def phrase_fix(ep, words):
+    for a, b, rep in RANGES.get(ep, []):
+        keep = [w for w in words if not (a <= w[0] < b)]
+        step = (b - a) / len(rep)
+        words = sorted(keep + [[a + k * step, a + (k + 1) * step, r] for k, r in enumerate(rep)], key=lambda w: w[0])
     norm = lambda w: re.sub(r"[.,!?]$", "", w.lower())
     for pat, rep in PHRASES.get(ep, []):
         i = 0
@@ -152,15 +162,28 @@ def variant(ep, v):
     sp = cfg["speed"]
     out_dir = os.path.join(D, "out"); os.makedirs(out_dir, exist_ok=True)
     out = os.path.join(out_dir, f"ep{ep}_v{v}.mp4")
+    if os.path.exists(out) and not os.environ.get("F4P_FORCE"):
+        return out
     ov = []  # (png, start, end) in OUTPUT time
     T = (total - t0) / sp
     if cfg["hook"]:
         ov.append((text_png(E["hook"], os.path.join(SP, f"f4p_hook{ep}.png")), 0, T))
     if cfg["caps"]:
+        # all caption cards go in as ONE image-sequence input (concat demuxer), not one input per card:
+        # ~100 looped full-frame RGBA inputs got the renders OOM-killed
         cy = 1655 if cfg["hook"] else 1560
+        blank = os.path.join(SP, "f4p_blank.png")
+        if not os.path.exists(blank): Image.new("RGBA", (W, H), (0, 0, 0, 0)).save(blank)
+        lst, t = [], 0.0
         for k, (a, b, txt) in enumerate(caption_groups(ep, t0, total)):
+            a, b = max((a - t0) / sp, t), (b - t0) / sp
+            if b <= a: continue
+            if a > t: lst += [f"file '{blank}'", f"duration {a - t:.3f}"]
             p = text_png([txt], os.path.join(SP, f"f4p_cap{ep}_{v}_{k:03d}.png"), size=82, y0=cy, gap=0)
-            ov.append((p, (a - t0) / sp, (b - t0) / sp))
+            lst += [f"file '{p}'", f"duration {b - a:.3f}"]; t = b
+        lst += [f"file '{blank}'", f"duration {max(T - t, 0.1):.3f}", f"file '{blank}'"]
+        cl = os.path.join(SP, f"f4p_caps_{ep}_{v}.txt"); open(cl, "w").write("\n".join(lst) + "\n")
+        ov.append(("CONCAT:" + cl, 0, T))
     vf = f"[0:v]trim=start={t0},setpts=(PTS-STARTPTS)/{sp},fps=30"
     if cfg["punch"]: vf += ",eq=saturation=1.15:contrast=1.06"
     vf += "[v0]"
@@ -168,13 +191,18 @@ def variant(ep, v):
     args = ["ffmpeg", "-v", "error", "-y", "-i", src]
     fc = [vf, af]
     for k, (p, a, b) in enumerate(ov):
+        if p.startswith("CONCAT:"):
+            args += ["-f", "concat", "-safe", "0", "-i", p[7:]]
+            fc.append(f"[{k+1}:v]fps=30,format=rgba[c{k}]")
+            fc.append(f"[v{k}][c{k}]overlay=0:0:eof_action=pass[v{k+1}]")
+            continue
         args += ["-loop", "1", "-framerate", "30", "-t", f"{T:.2f}", "-i", p]
         fc.append(f"[v{k}][{k+1}:v]overlay=0:0:enable='between(t,{a:.3f},{b:.3f})'[v{k+1}]")
     fc.append(f"[v{len(ov)}]format=yuv420p[v]")
     args += ["-filter_complex", ";".join(fc), "-map", "[v]", "-map", "[a]", "-t", f"{T:.3f}",
              "-c:v", "libx264", "-preset", "medium", "-crf", "21", "-maxrate", "8M", "-bufsize", "16M", "-profile:v", "high",
-             "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", out]
-    run(args)
+             "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", out + ".tmp.mp4"]
+    run(args); os.replace(out + ".tmp.mp4", out)
     return out
 
 
