@@ -3,8 +3,8 @@
 **Goal (from the user):** repost every Fuel 4 Performance interview (Ep. 1-7) as Instagram **trial reels**,
 on a schedule, with a change in each version, to reach non-followers and convert them to followers on @fueled_4_fitness.
 
-**Agreed plan:** 6 trial reels a day at 4:22 PM Arizona time (America/Phoenix, no DST), for 7 days, from Nov 14
-to Nov 20, 2026 (the user shortened it from 3 a day over 14 days). 7 episodes × 6 variants = 42 posts. `publish_f4p.py: slots_for(date)` gives each day's (ep, variant) list.
+**Agreed plan (final):** 3 trial reels a day at 4:22 PM Arizona time (America/Phoenix, no DST), Nov 14-23, 2026.
+7 episodes × 4 variants (`use_variants`: 1, 3, 5, 6, the cold-open versions) = 28 posts. `publish_f4p.py: slots_for(date)` gives each day's (ep, variant) list.
 The episode order is in `plan.json` (4, 7, 5, 6, 1, 2, 3). Every episode gets variant 1 first, then 2, and so on.
 
 ## Variants (`plan.json` → `variants`)

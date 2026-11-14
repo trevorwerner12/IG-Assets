@@ -49,11 +49,12 @@ def caption(ep, v):
 def slots_for(az_date):
     d = (datetime.date.fromisoformat(az_date) - datetime.date.fromisoformat(PLAN["start_date"])).days
     n, order = PLAN["per_day"], PLAN["order"]
+    use = PLAN.get("use_variants") or sorted(PLAN["variants"])
     out = []
     for k in range(n):
         i = d * n + k
-        if 0 <= i < 6 * len(order):
-            out.append((order[i % len(order)], str(i // len(order) + 1)))
+        if 0 <= i < len(use) * len(order):
+            out.append((order[i % len(order)], use[i // len(order)]))
     return out
 
 
