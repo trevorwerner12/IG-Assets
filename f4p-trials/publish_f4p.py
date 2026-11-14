@@ -47,6 +47,8 @@ def caption(ep, v):
 
 
 def slots_for(az_date):
+    if az_date in PLAN.get("overrides", {}):  # hand-set days (the last post moved from Nov 23 to Nov 22)
+        return [tuple(x) for x in PLAN["overrides"][az_date]]
     d = (datetime.date.fromisoformat(az_date) - datetime.date.fromisoformat(PLAN["start_date"])).days
     n, order = PLAN["per_day"], PLAN["order"]
     use = PLAN.get("use_variants") or sorted(PLAN["variants"])
